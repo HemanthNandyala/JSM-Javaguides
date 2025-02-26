@@ -1,5 +1,6 @@
 package net.javaPrep.springboot.controller;
 
+import net.javaPrep.springboot.dto.UserDTO;
 import net.javaPrep.springboot.entity.User;
 import net.javaPrep.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +18,32 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
 
-        User savedUser = userService.createUser(user);
+        UserDTO savedUser = userService.createUser(userDTO);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long userId){
-       User user = userService.getUserById(userId);
-       return new ResponseEntity<>(user,HttpStatus.OK);
+    //http://localhost:8086/api/user/5
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long userId){
+       UserDTO userDTO = userService.getUserById(userId);
+       return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users = userService.getAllUsers();
+    //http://localhost:8086/api/user
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+        List<UserDTO> users = userService.getAllUsers();
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId, @RequestBody User user){
+    //http://localhost:8086/api/user/3
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId, @RequestBody UserDTO user){
         user.setId(userId);
-       User updatedUser = userService.updateUserById(user);
+       UserDTO updatedUser = userService.updateUserById(user);
 
        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
